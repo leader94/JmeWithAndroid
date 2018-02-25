@@ -1,0 +1,52 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.0.1'
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+def jme3 = [v: '3.2.0-stable', g: 'org.jmonkeyengine']
+
+project(":core") {
+    apply plugin: "java"
+    dependencies {
+        compile "${jme3.g}:jme3-core:${jme3.v}"
+    }
+}
+
+project(":desktop") {
+    apply plugin: "java"
+    dependencies {
+        compile project(":core")
+        compile "${jme3.g}:jme3-desktop:${jme3.v}"
+        compile "${jme3.g}:jme3-lwjgl:${jme3.v}"
+    }
+}
+
+project(":app") {
+    apply plugin: "android"
+    dependencies {
+        compile project(":core")
+        compile "${jme3.g}:jme3-android:${jme3.v}"
+        compile "${jme3.g}:jme3-android-native:${jme3.v}"
+    }
+}
